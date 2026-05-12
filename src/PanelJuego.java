@@ -11,6 +11,10 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
     private Random random;
     private int puntuacion = 0;
     private boolean juegoTerminado = false;
+     //ana
+    private int nubeX1 = 100;
+    private int nubeX2 = 500;
+
 
     // Imagen para el agua
     private Image spriteAgua;
@@ -52,6 +56,18 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        // NUBES
+g.setColor(Color.WHITE);
+
+// Nube 1
+g.fillOval(nubeX1, 60, 50, 30);
+g.fillOval(nubeX1 + 20, 50, 60, 40);
+g.fillOval(nubeX1 + 50, 60, 50, 30);
+
+// Nube 2
+g.fillOval(nubeX2, 100, 50, 30);
+g.fillOval(nubeX2 + 20, 90, 60, 40);
+g.fillOval(nubeX2 + 50, 100, 50, 30);
 
         // fondo
         if (fondo != null) {
@@ -91,9 +107,20 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
     public void actionPerformed(ActionEvent e) {
         if (!juegoTerminado) {
             rana.actualizar();
+// Movimiento de nubes
+nubeX1 -= 1;
+nubeX2 -= 1;
 
+if (nubeX1 < -100) {
+    nubeX1 = ANCHO;
+}
+
+if (nubeX2 < -100) {
+    nubeX2 = ANCHO + 300;
+}
             if (random.nextInt(100) < 3) {
                 if (obstaculos.isEmpty() || obstaculos.get(obstaculos.size() - 1).getBounds().x < 600) {
+
                     // línea del agua
                     obstaculos.add(new Obstaculo(800, 330));
                 }
