@@ -69,9 +69,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
         super.paintComponent(g);
 
-        // =========================
-        // FONDO
-        // =========================
+
         if (fondo != null) {
 
             g.drawImage(
@@ -84,9 +82,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
             );
         }
 
-        // =========================
-        // NUBES (ENCIMA DEL FONDO)
-        // =========================
+
         g.setColor(Color.WHITE);
 
         // Nube 1
@@ -99,9 +95,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
         g.fillOval(nubeX2 + 20, 90, 60, 40);
         g.fillOval(nubeX2 + 50, 100, 50, 30);
 
-        // =========================
-        // AGUA
-        // =========================
+
         if (spriteAgua != null) {
 
             for (int x = 0; x < getWidth(); x += 70) {
@@ -122,21 +116,15 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
             g.fillRect(0, 330, 800, 70);
         }
 
-        // =========================
-        // RANA
-        // =========================
+
         rana.dibujar(g);
 
-        // =========================
-        // OBSTÁCULOS
-        // =========================
+
         for (Obstaculo o : obstaculos) {
             o.dibujar(g);
         }
 
-        // =========================
-        // PUNTOS
-        // =========================
+
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 18));
 
@@ -146,9 +134,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                 30
         );
 
-        // =========================
-        // GAME OVER
-        // =========================
+
         if (juegoTerminado) {
 
             g.setColor(Color.RED);
@@ -172,9 +158,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
             rana.actualizar();
 
-            // =========================
-            // MOVIMIENTO DE NUBES
-            // =========================
+
             nubeX1 -= 1;
             nubeX2 -= 1;
 
@@ -186,9 +170,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                 nubeX2 = getWidth() + 300;
             }
 
-            // =========================
-            // GENERAR OBSTÁCULOS
-            // =========================
+
             if (random.nextInt(100) < 3) {
 
                 if (
@@ -205,9 +187,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                 }
             }
 
-            // =========================
-            // ACTUALIZAR OBSTÁCULOS
-            // =========================
+
             for (int i = 0; i < obstaculos.size(); i++) {
 
                 Obstaculo o = obstaculos.get(i);
