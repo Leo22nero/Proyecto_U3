@@ -18,7 +18,7 @@ public class Mosquito {
 
             try {
                 spriteMosco = new ImageIcon(
-                        getClass().getResource("/proyecto_u3/Sprites/mosco.png")
+                        getClass().getResource("/Sprites/mosco.png")
                 ).getImage();
 
             } catch (Exception e) {
