@@ -20,7 +20,7 @@ public class Obstaculo {
             try {
 
                 spriteHoja = new ImageIcon(
-                        getClass().getResource("/proyecto_u3/Sprites/hoja.png")
+                        getClass().getResource("/Sprites/hoja.png")
                 ).getImage();
 
             } catch (Exception e) {
