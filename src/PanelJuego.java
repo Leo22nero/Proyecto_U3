@@ -202,9 +202,12 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                                 rana.getBounds()
                         )
                 ) {
-
+                    rana.golpear();
                     juegoTerminado = true;
+                    repaint();
                     timer.stop();
+
+
                 }
 
                 // Sale de pantalla

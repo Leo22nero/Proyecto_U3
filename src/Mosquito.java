@@ -13,7 +13,7 @@ public class Mosquito {
 
         rect = new Rectangle(x, y, 50, 40);
 
- 
+
         if (spriteMosco == null) {
 
             try {
