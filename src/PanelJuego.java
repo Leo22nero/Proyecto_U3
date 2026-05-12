@@ -36,7 +36,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
         try {
             spriteAgua = new ImageIcon(
-                    getClass().getResource("/proyecto_u3/Sprites/agua.png")
+                    getClass().getResource("/Sprites/agua.png")
             ).getImage();
 
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
         try {
             fondo = new ImageIcon(
-                    getClass().getResource("/proyecto_u3/Sprites/Imagenf.png")
+                    getClass().getResource("/Sprites/Imagenf.png")
             ).getImage();
 
         } catch (Exception e) {
