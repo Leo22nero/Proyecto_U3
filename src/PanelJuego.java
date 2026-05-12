@@ -15,6 +15,9 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
     // Imagen para el agua
     private Image spriteAgua;
 
+    // Imagen de fondo
+    private Image fondo;
+
     public PanelJuego() {
         this.setPreferredSize(new Dimension(800, 400));
 
@@ -23,12 +26,20 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
         this.setFocusable(true);
         this.addKeyListener(this);
 
-        // Cargam la imagen del agua
+        //imagen del agua
         try {
-            spriteAgua = new ImageIcon(getClass().getResource("/Sprites/agua.png")).getImage();
+            spriteAgua = new ImageIcon(getClass().getResource("/proyecto_u3/Sprites/agua.png")).getImage();
         } catch (Exception e) {
             System.out.println("No se pudo cargar agua.png");
             spriteAgua = null;
+        }
+
+        // imagen de fondo
+        try {
+            fondo = new ImageIcon(getClass().getResource("/proyecto_u3/Sprites/Imagenf.png")).getImage();
+        } catch (Exception e) {
+            System.out.println("No se pudo cargar Imagenf.png");
+            fondo = null;
         }
 
         rana = new Rana();
@@ -42,11 +53,15 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        // fondo
+        if (fondo != null) {
+            g.drawImage(fondo, 0, 0, getWidth(), getHeight(), null);
+        }
 
         if (spriteAgua != null) {
 
             // La imagen de 70 pixe de alto.
-            for (int x = 0; x < getWidth(); x += 70) { // Asumimos que agua.png mide ~70px de ancho
+            for (int x = 0; x < getWidth(); x += 70) { 
                 g.drawImage(spriteAgua, x, 330, 70, 70, null);
             }
         } else {
@@ -79,7 +94,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
             if (random.nextInt(100) < 3) {
                 if (obstaculos.isEmpty() || obstaculos.get(obstaculos.size() - 1).getBounds().x < 600) {
-                    // Aparecen en la línea del agua
+                    // línea del agua
                     obstaculos.add(new Obstaculo(800, 330));
                 }
             }
