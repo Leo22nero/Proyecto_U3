@@ -15,6 +15,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
     private int puntuacion = 0;
     private int record = 0;
+    private int numeroPartida = 1;
 
     private boolean juegoTerminado = false;
 
@@ -24,8 +25,6 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
     private Image spriteAgua;
     private Image fondo;
 
-
-//Constructor
     public PanelJuego() {
 
         this.setPreferredSize(new Dimension(800, 400));
@@ -65,8 +64,6 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
         musica.start();
     }
 
-
-//Dubujar el fondo
     @Override
     protected void paintComponent(Graphics g) {
 
@@ -89,7 +86,6 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
         if (spriteAgua != null) {
 
             for (int x = 0; x < getWidth(); x += 70) {
-
                 g.drawImage(spriteAgua, x, 330, 70, 70, null);
             }
 
@@ -176,17 +172,17 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                         record = puntuacion;
                     }
 
-                    System.out.println("Record final: " + record);
+                    System.out.println("Record "+ numeroPartida + " = Puntos: " + puntuacion
+                    );
 
+                    numeroPartida++;
                     repaint();
-
                     timer.stop();
                 }
 
                 if (o.fueraDePantalla()) {
 
                     obstaculos.remove(i);
-
                     puntuacion++;
 
                     if (puntuacion > record) {
@@ -211,10 +207,11 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                         record = puntuacion;
                     }
 
-                    System.out.println("Record final: " + record);
+                    System.out.println(
+                            "Record " + numeroPartida + " = Puntos: " + puntuacion);
 
+                    numeroPartida++;
                     repaint();
-
                     timer.stop();
                 }
 
