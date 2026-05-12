@@ -1,0 +1,56 @@
+import javax.swing.ImageIcon;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Rectangle;
+
+public class Mosquito {
+
+    private Rectangle rect;
+
+    private static Image spriteMosco;
+
+    public Mosquito(int x, int y) {
+
+        rect = new Rectangle(x, y, 50, 40);
+
+ 
+        if (spriteMosco == null) {
+
+            try {
+                spriteMosco = new ImageIcon(
+                        getClass().getResource("/proyecto_u3/Sprites/mosco.png")
+                ).getImage();
+
+            } catch (Exception e) {
+
+                System.out.println("No se pudo cargar mosco.png");
+
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void mover() {
+
+        rect.x -= 12;
+    }
+
+    public void dibujar(Graphics g) {
+
+        if (spriteMosco != null) {
+
+            g.drawImage(spriteMosco,rect.x,rect.y,rect.width,rect.height,null
+            );
+        }
+    }
+
+    public Rectangle getBounds() {
+
+        return rect;
+    }
+
+    public boolean fueraDePantalla() {
+
+        return rect.x + rect.width < 0;
+    }
+}
