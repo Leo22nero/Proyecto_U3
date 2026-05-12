@@ -8,6 +8,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
     private Rana rana;
     private ArrayList<Obstaculo> obstaculos;
+    private ArrayList<Mosquito> mosquitos;//pegar en codigomar
     private Timer timer;
     private Random random;
 
@@ -28,16 +29,14 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
         this.setPreferredSize(new Dimension(800, 400));
 
-        // Color del cielo
         this.setBackground(new Color(135, 206, 235));
 
         this.setFocusable(true);
         this.addKeyListener(this);
 
-        // Imagen del agua
         try {
             spriteAgua = new ImageIcon(
-                    getClass().getResource("/Sprites/agua.png")
+                    getClass().getResource("/proyecto_u3/Sprites/agua.png")
             ).getImage();
 
         } catch (Exception e) {
@@ -45,10 +44,9 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
             spriteAgua = null;
         }
 
-        // Imagen de fondo
         try {
             fondo = new ImageIcon(
-                    getClass().getResource("/Sprites/Imagenf.png")
+                    getClass().getResource("/proyecto_u3/Sprites/Imagenf.png")
             ).getImage();
 
         } catch (Exception e) {
@@ -58,6 +56,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
         rana = new Rana();
         obstaculos = new ArrayList<>();
+        mosquitos = new ArrayList<>();//agregar alcod
         random = new Random();
 
         timer = new Timer(20, this);
@@ -69,19 +68,8 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
         super.paintComponent(g);
 
-
-        if (fondo != null) {
-
-            g.drawImage(
-                    fondo,
-                    0,
-                    0,
-                    getWidth(),
-                    getHeight(),
-                    null
-            );
+        if (fondo != null) {g.drawImage(fondo,0,0,getWidth(), getHeight(),null);
         }
-
 
         g.setColor(Color.WHITE);
 
@@ -94,7 +82,6 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
         g.fillOval(nubeX2, 100, 50, 30);
         g.fillOval(nubeX2 + 20, 90, 60, 40);
         g.fillOval(nubeX2 + 50, 100, 50, 30);
-
 
         if (spriteAgua != null) {
 
@@ -116,14 +103,16 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
             g.fillRect(0, 330, 800, 70);
         }
 
-
         rana.dibujar(g);
-
 
         for (Obstaculo o : obstaculos) {
             o.dibujar(g);
         }
-
+        
+        //agregar al cod marrr
+        for (Mosquito m : mosquitos) {
+    m.dibujar(g);
+}
 
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.BOLD, 18));
@@ -133,7 +122,6 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                 20,
                 30
         );
-
 
         if (juegoTerminado) {
 
@@ -158,7 +146,9 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
             rana.actualizar();
 
-
+            // =========================
+            // MOVIMIENTO DE NUBES
+            // =========================
             nubeX1 -= 1;
             nubeX2 -= 1;
 
@@ -170,7 +160,9 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                 nubeX2 = getWidth() + 300;
             }
 
-
+            // =========================
+            // GENERAR OBSTÁCULOS
+            // =========================
             if (random.nextInt(100) < 3) {
 
                 if (
@@ -186,8 +178,18 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                     );
                 }
             }
+            
+            //pegra codmariannaaa
+            if (random.nextInt(200) < 2) {
 
+    mosquitos.add(
+            new Mosquito(800, 250)
+    );
+}
 
+            // =========================
+            // ACTUALIZAR OBSTÁCULOS
+            // =========================
             for (int i = 0; i < obstaculos.size(); i++) {
 
                 Obstaculo o = obstaculos.get(i);
@@ -212,6 +214,32 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                     puntuacion++;
                 }
             }
+            //pegar mariana al codigo 
+            for (int i = 0; i < mosquitos.size(); i++) {
+
+    Mosquito m = mosquitos.get(i);
+
+    m.mover();
+
+    // Colisión
+    if (
+            m.getBounds().intersects(
+                    rana.getBounds()
+            )
+    ) {
+
+        juegoTerminado = true;
+        timer.stop();
+    }
+
+    // Sale de pantalla
+    if (m.fueraDePantalla()) {
+
+        mosquitos.remove(i);
+
+        puntuacion += 2;
+    }
+}
         }
 
         repaint();
