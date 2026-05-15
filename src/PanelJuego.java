@@ -4,8 +4,11 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.Random;
 
+
+
 public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
+    private Pantalla_final pantallaFinal;
     private Hilo musica;
     private Rana rana;
     private ArrayList<Obstaculo> obstaculos;
@@ -19,6 +22,7 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
     private boolean juegoTerminado = false;
 
+
     private int nubeX1 = 100;
     private int nubeX2 = 500;
 
@@ -27,10 +31,90 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
 
     public PanelJuego() {
 
+        pantallaFinal = new Pantalla_final();
         this.setPreferredSize(new Dimension(800, 400));
         this.setBackground(new Color(135, 206, 235));
         this.setFocusable(true);
         this.addKeyListener(this);
+
+        this.addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+
+                if (juegoTerminado) {
+
+                    Point click = e.getPoint();
+
+                    if (
+                            pantallaFinal
+                                    .getBotonReiniciar()
+                                    .contains(click)
+                    ) {
+
+                        reiniciar();
+                    }
+
+                    if (
+                            pantallaFinal
+                                    .getBotonPuntajes()
+                                    .contains(click)
+                    ) {
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                "Puntaje actual: " + puntuacion
+                                        + "\n\nRecord historico: " + record,
+                                "Tabla de puntuaciones",
+                                JOptionPane.INFORMATION_MESSAGE
+                        );
+                    }
+
+                    if (
+                            pantallaFinal
+                                    .getBotonCreditos()
+                                    .contains(click)
+                    ) {
+
+                        JPanel panelCreditos = new JPanel();
+
+                        panelCreditos.setBackground(Color.BLACK);
+
+                        panelCreditos.setPreferredSize(new Dimension(700, 320));
+
+                        JTextArea texto = new JTextArea();
+
+                        texto.setEditable(false);
+
+                        texto.setBackground(Color.BLACK);
+
+                        texto.setForeground(Color.WHITE);
+
+                        texto.setFont(new Font("Arial", Font.BOLD, 22));
+
+                        texto.setText("\n" + "JUEGO CREADO POR: \n\n"
+                                        + "MARIANA CORREA CORREA\n\n"
+                                        + "LEONARDO ESTRADA CORREA\n\n"
+                                        + "ANA LAURA GERVACIO ELIAS\n\n"
+                                        + "JULIA RUIZ LOPEZ"
+                        );
+
+                        texto.setLineWrap(false);
+
+                        texto.setWrapStyleWord(false);
+
+                        panelCreditos.add(texto);
+
+                        JOptionPane.showMessageDialog(
+                                null,
+                                panelCreditos,
+                                "Creditos",
+                                JOptionPane.PLAIN_MESSAGE
+                        );
+                    }
+                }
+            }
+        });
 
         try {
             spriteAgua = new ImageIcon(
@@ -111,12 +195,18 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
         g.drawString("Puntos: " + puntuacion, 20, 30);
         g.drawString("Record: " + record, 20, 60);
 
+        g.setColor(new Color(0, 0, 0, 170));
+        g.fillRoundRect(560, 15, 220, 45, 20, 20);
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 20));
+        g.drawString("#TEAMSISTEMAS", 585, 44);
+
         if (juegoTerminado) {
 
-            g.setColor(Color.RED);
-            g.setFont(new Font("Arial", Font.BOLD, 30));
+            pantallaFinal.dibujar(g);
 
-            g.drawString("GAME OVER - Pulsa R", 250, 200);
+            return;
         }
     }
 
@@ -172,17 +262,22 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                         record = puntuacion;
                     }
 
-                    System.out.println("Record "+ numeroPartida + " = Puntos: " + puntuacion
+                    System.out.println(
+                            "Record " + numeroPartida
+                                    + " = Puntos: " + puntuacion
                     );
 
                     numeroPartida++;
+
                     repaint();
+
                     timer.stop();
                 }
 
                 if (o.fueraDePantalla()) {
 
                     obstaculos.remove(i);
+
                     puntuacion++;
 
                     if (puntuacion > record) {
@@ -208,10 +303,14 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
                     }
 
                     System.out.println(
-                            "Record " + numeroPartida + " = Puntos: " + puntuacion);
+                            "Record " + numeroPartida
+                                    + " = Puntos: " + puntuacion
+                    );
 
                     numeroPartida++;
+
                     repaint();
+
                     timer.stop();
                 }
 
@@ -234,17 +333,12 @@ public class PanelJuego extends JPanel implements ActionListener, KeyListener {
     @Override
     public void keyPressed(KeyEvent e) {
 
-        if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-            rana.saltar();
-        }
+        if (!juegoTerminado) {
 
-        if (
-                e.getKeyCode() == KeyEvent.VK_R
-                        &&
-                        juegoTerminado
-        ) {
+            if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 
-            reiniciar();
+                rana.saltar();
+            }
         }
     }
 
